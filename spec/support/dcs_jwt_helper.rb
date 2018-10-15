@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../../app/lib/dcs_jwt'
+
 module DcsJwtHelper
   def jwt_exp(seconds: 60)
     (Time.now + seconds).to_i
@@ -9,8 +11,8 @@ module DcsJwtHelper
     Time.now.to_i
   end
 
-  def valid_payload
-    { email: 'test@example.com',
+  def valid_payload(user)
+    { email: user.email,
       exp: jwt_exp,
       nbf: jwt_nbf }
   end
@@ -24,6 +26,14 @@ module DcsJwtHelper
   def expired_jwt_token
     JWT.encode(
       expired_payload,
+      DcsJwtDefaults::HMAC_SECRET,
+      DcsJwtDefaults::ALGORITHM
+    )
+  end
+
+  def valid_jwt_token(user)
+    JWT.encode(
+      valid_payload(user),
       DcsJwtDefaults::HMAC_SECRET,
       DcsJwtDefaults::ALGORITHM
     )

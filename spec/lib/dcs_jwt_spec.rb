@@ -3,16 +3,18 @@
 require 'rails_helper'
 
 RSpec.describe DcsJwt do
+  let(:user) { build_stubbed(:user) }
+
   describe '.encode' do
     it 'creates jwt token' do
-      jwt_token = described_class.encode(payload: valid_payload)
+      jwt_token = described_class.encode(payload: valid_payload(user))
       expect(jwt_token).not_to be_nil
     end
   end
 
   describe '.decode' do
     it 'returns jwt_token data' do
-      jwt_token = described_class.encode(payload: valid_payload)
+      jwt_token = described_class.encode(payload: valid_payload(user))
       expect(described_class.decode(jwt_token: jwt_token)).to be_a(Array)
     end
   end
