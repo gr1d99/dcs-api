@@ -25,7 +25,8 @@ class ApplicationController < ActionController::API
       return
     end
     user_email = DcsJwt.decode(jwt_token: jwt_token)[0]['email']
-    @current_user = User.find_by_email(user_email)
+    user = User.find_by_email(user_email)
+    instance_variable_set(:@current_user, user)
   end
 
   def jwt_token

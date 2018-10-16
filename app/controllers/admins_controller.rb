@@ -4,9 +4,11 @@ class AdminsController < ApplicationController
   before_action :authenticate_user!, :admin_only!
 
   def add_user
+    user_password = random_password
     User.create!(
-      user_params.merge(password: random_password)
+      user_params.merge(password: user_password)
     )
+    InviteJob.perform_later(email: params[:email], password: user_password)
     render json: { message: 'User created successfully' }, status: :created
   end
 
