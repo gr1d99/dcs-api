@@ -2,17 +2,27 @@
 
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_record
+  rescue_from JWT::ExpiredSignature, with: :expired_signature
+  rescue_from JWT::DecodeError, with: :invalid_jwt
 
   private
 
   attr_reader :current_user
 
-  def invalid_record(exception)
-    render json: { error: exception.message }, status: :unprocessable_entity
+  def invalid_record(error)
+    render json: { error: error.message }, status: :unprocessable_entity
+  end
+
+  def expired_signature(error)
+    render json: { error: error.message }, status: :unauthorized
   end
 
   def jwt_token_required
     render json: { error: 'jwt token required' }, status: :unauthorized
+  end
+
+  def invalid_jwt(*)
+    render json: { error: 'invalid jwt token' }, status: :unauthorized
   end
 
   def random_password
