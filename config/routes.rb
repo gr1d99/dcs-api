@@ -3,6 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   scope :auth do
     post 'login', to: 'sessions#create'
+    delete 'logout', to: 'sessions#destroy'
   end
 
   scope :admin do

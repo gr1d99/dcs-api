@@ -47,4 +47,30 @@ RSpec.describe 'Sessions', type: :request do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let(:user) { create(:user) }
+    let(:jwt_token) { DcsJwt.encode(payload: { email: user.email }) }
+    let(:headers) { { Authorization: "Bearer #{jwt_token}" } }
+
+    context 'when jwt is valid' do
+      before { delete logout_path, headers: headers }
+
+      it { expect(response).to have_http_status(200) }
+    end
+
+    context 'when jti has been blacklisted' do
+      before { delete logout_path, headers: headers }
+
+      it 'revokes jwt token' do
+        delete logout_path, headers: headers
+        expect(response).to have_http_status(401)
+      end
+
+      it 'returns revoked error message' do
+        delete logout_path, headers: headers
+        expect(json['error']).to match('token has been revoked')
+      end
+    end
+  end
 end

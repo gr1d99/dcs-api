@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  before_action :authenticate_user!, only: :destroy
+
   def create
     unless user_authenticated?
       reject_login!
@@ -12,7 +14,21 @@ class SessionsController < ApplicationController
     reject_login!
   end
 
+  def destroy
+    blacklist_auth_token
+    render json: { message: 'you have been logged out' }, status: :ok
+  end
+
   private
+
+  def blacklist_auth_token
+    if Blacklist.jti_exists?(raw_jti)
+      render json: { error: 'token has been revoked' }, status: :unauthorized
+      return
+    end
+    jwt = auth_token.split.last
+    BlacklistJwtService.call(jwt: jwt)
+  end
 
   def login_params
     params.permit(:email, :password).to_h

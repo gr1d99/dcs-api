@@ -17,9 +17,9 @@ class DcsJwt
     )
   end
 
-  def self.decode(jwt_token:)
+  def self.decode(jwt:)
     JWT.decode(
-      jwt_token,
+      jwt,
       DcsJwtDefaults::HMAC_SECRET,
       true,
       DcsJwtDefaults::CUSTOM_OPTIONS
@@ -30,6 +30,12 @@ class DcsJwt
     payload[:iat] = Time.now.to_i
     payload[:nbf] = Time.now.to_i
     payload[:exp] = (Time.now + ENV['JWT_EXPIRATION'].to_i).to_i
+    payload[:jti] = jti
     payload
+  end
+
+  def self.jti
+    string = "#{SecureRandom.uuid}-#{Time.now}"
+    Digest::MD5.hexdigest(string)
   end
 end

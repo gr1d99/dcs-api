@@ -25,30 +25,38 @@ class ApplicationController < ActionController::API
     render json: { error: 'invalid jwt token' }, status: :unauthorized
   end
 
+  def jwt_token_revoked
+    render json: { error: 'token has been revoked, please login again' }, status: :unauthorized
+  end
+
   def random_password
     SecureRandom.urlsafe_base64(10)
   end
 
   def authenticate_user!
-    unless authorization_header_valid?
+    unless auth_token_valid?
       jwt_token_required
       return
     end
-    user_email = DcsJwt.decode(jwt_token: jwt_token)[0]['email']
-    user = User.find_by_email(user_email)
+    jwt_token_revoked if token_revoked?
+    user = AuthorizeUserService.call(auth_token: auth_token)
     instance_variable_set(:@current_user, user)
   end
 
-  def jwt_token
-    authorization_header.split(' ').last
-  end
-
-  def authorization_header_valid?
-    return true unless authorization_header.nil?
+  def auth_token_valid?
+    return true unless auth_token.nil?
     false
   end
 
-  def authorization_header
+  def token_revoked?
+    Blacklist.jti_exists?(raw_jti)
+  end
+
+  def auth_token
     request.env['HTTP_AUTHORIZATION']
+  end
+
+  def raw_jti
+    DcsJwt.decode(jwt: auth_token.split.last)[0]['jti']
   end
 end

@@ -12,9 +12,10 @@ module DcsJwtHelper
   end
 
   def valid_payload(user)
-    { email: user.email,
+    { email: user.email.strip,
       exp: jwt_exp,
-      nbf: jwt_nbf }
+      nbf: jwt_nbf,
+      iat: jwt_nbf }
   end
 
   def expired_payload
@@ -32,11 +33,7 @@ module DcsJwtHelper
   end
 
   def valid_jwt_token(user)
-    JWT.encode(
-      valid_payload(user),
-      DcsJwtDefaults::HMAC_SECRET,
-      DcsJwtDefaults::ALGORITHM
-    )
+    DcsJwt.encode(payload: { email: user.email })
   end
 end
 
