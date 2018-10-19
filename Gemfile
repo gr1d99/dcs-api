@@ -53,6 +53,7 @@ group :test do
   gem 'guard-rspec', require: false
   gem 'shoulda-matchers'
   gem 'rubocop-rspec', require: false
+  gem 'simplecov', require: false
 end
 
 
