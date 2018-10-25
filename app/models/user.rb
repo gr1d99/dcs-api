@@ -16,9 +16,11 @@ class User < ApplicationRecord
 
   def build_password_reset_url
     host, port = User.fetch_host_and_port(Rails.env)
-    Rails.application.routes.url_helpers.passwords_url(
+    Rails.application.routes.url_helpers.verify_token_url(
       host: host,
-      port: port, token: password_reset_token
+      port: port,
+      type: 'password_reset',
+      token: password_reset_token
     )
   end
 
@@ -27,6 +29,12 @@ class User < ApplicationRecord
       [ENV['PROD_HOST'], ENV['PROD_PORT']]
     elsif env == 'development'
       [ENV['DEV_HOST'], ENV['DEV_PORT']]
+    end
+  end
+
+  def self.token_valid?(type, token)
+    if type == 'password_reset'
+      where(password_reset_token: token).exists?
     end
   end
 end

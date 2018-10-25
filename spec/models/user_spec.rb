@@ -46,5 +46,20 @@ RSpec.describe User, type: :model do
           .to match(%w[localhost 3000])
       end
     end
+
+    describe '#verify_token?' do
+      it 'returns true when token exists' do
+        allow(User).to receive(:token_valid?).and_return(true)
+        expect(User.token_valid?('password_reset', SecureRandom.urlsafe_base64))
+          .to eq(true)
+      end
+
+      it 'returns false when token does not exists' do
+        allow(User).to receive(:token_valid?).and_return(false)
+        expect(User.token_valid?('password_reset', SecureRandom.urlsafe_base64))
+          .to eq(false )
+      end
+
+    end
   end
 end

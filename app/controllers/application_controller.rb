@@ -59,4 +59,21 @@ class ApplicationController < ActionController::API
   def raw_jti
     DcsJwt.decode(jwt: auth_token.split.last)[0]['jti']
   end
+
+  def responder(type, status, message: nil, error: nil)
+    case type
+    when 'success'
+      render json: { message: message }, status: status
+    when 'error'
+      render json: { error: error }, status: status
+    else
+      raise('Invalid type!!')
+    end
+  end
+
+  def string_empty_or_nil?(string)
+    return false if string.is_a?(NilClass)
+    return false if string.is_a?(String) && string.empty?
+    true
+  end
 end

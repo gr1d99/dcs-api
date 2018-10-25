@@ -20,9 +20,7 @@ class PasswordsController < ApplicationController
   end
 
   def email_provided?(email)
-    return false if email.is_a?(NilClass)
-    return false if email.is_a?(String) && email.empty?
-    true
+    string_empty_or_nil?(email)
   end
 
   def handle_email_not_provided

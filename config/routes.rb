@@ -15,5 +15,7 @@ Rails.application.routes.draw do
     post 'add-user/', to: 'admins#add_user'
   end
 
+  get 'verify', to: 'tokens#verify', as: 'verify_token'
+
   mount Sidekiq::Web => '/sidekiq'
 end
