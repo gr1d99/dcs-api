@@ -38,8 +38,8 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
       before do
         get verify_token_path, params: { type: type }
       end
-      it 'responds with 422' do
 
+      it 'responds with 422' do
         expect(response).to have_http_status(422)
       end
 

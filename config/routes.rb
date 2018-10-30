@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   scope :passwords do
     get 'new', to: 'passwords#new', as: 'new_password'
-    get 'create', to: 'passwords#create', as: 'passwords'
+    post 'create', to: 'passwords#create', as: 'passwords'
   end
 
   scope :admin do

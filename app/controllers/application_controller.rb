@@ -29,6 +29,10 @@ class ApplicationController < ActionController::API
     render json: { error: 'token has been revoked, please login again' }, status: :unauthorized
   end
 
+  def page_not_found
+    responder('error', :not_found, error: 'Page not found')
+  end
+
   def random_password
     SecureRandom.urlsafe_base64(10)
   end
