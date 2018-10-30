@@ -33,10 +33,6 @@ class ApplicationController < ActionController::API
     responder('error', :not_found, error: 'Page not found')
   end
 
-  def random_password
-    SecureRandom.urlsafe_base64(10)
-  end
-
   def authenticate_user!
     unless auth_token_valid?
       jwt_token_required
@@ -79,5 +75,9 @@ class ApplicationController < ActionController::API
     return false if string.is_a?(NilClass)
     return false if string.is_a?(String) && string.empty?
     true
+  end
+
+  def notify(type, params: {})
+    NotificationsService.call(type, params: params)
   end
 end

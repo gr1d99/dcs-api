@@ -11,7 +11,7 @@ module ActionMailerSupport
 end
 
 RSpec.configure do |config|
-  config.include(ActionMailerSupport, type: :job)
-  config.include(ActionMailerSupport, type: :mailer)
+  config.include(ActionMailerSupport)
+  config.include(ActionMailerSupport)
   config.before { ActionMailer::Base.deliveries.clear }
 end

@@ -4,11 +4,10 @@ class AdminsController < ApplicationController
   before_action :authenticate_user!, :admin_only!
 
   def add_user
-    user_password = random_password
-    User.create!(
-      user_params.merge(password: user_password)
-    )
-    InviteJob.perform_later(email: params[:email], password: user_password)
+    user_password = SecureRandom.urlsafe_base64(10)
+    User.create!(user_params.merge(password: user_password))
+    notify('invite new user',
+           params: { email: params[:email], password: user_password })
     render json: { message: 'User created successfully' }, status: :created
   end
 
@@ -23,8 +22,8 @@ class AdminsController < ApplicationController
   end
 
   def forbidden_access
-    render json: {
-      error: 'You do not have enough permission to make such request '
-    }, status: :forbidden
+    responder('error',
+              :forbidden,
+              error: 'You do not have enough permission to make such request ')
   end
 end
