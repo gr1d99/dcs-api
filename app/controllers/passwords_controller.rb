@@ -36,9 +36,9 @@ class PasswordsController < ApplicationController
   def notify(type)
     if type == 'reset_password'
       @user.build_password_reset_token
-      SendPasswordResetLinkJob.perform_later(
-        user_email: @user.email,
-        link: @user.build_password_reset_url)
+      params = { user_email: @user.email,
+                 link: @user.build_password_reset_url }
+      NotificationsService.call('send password reset link', params: params)
     end
   end
 
@@ -55,11 +55,11 @@ class PasswordsController < ApplicationController
   def handle_email_provided
     if @user
       notify('reset_password')
-      render json: {
-        message: 'Password reset instructions sent to your email'
-      }, status: :ok
+      message = 'Password reset instructions sent to your email'
+      responder('success', :ok, message: message)
     else
-      render json: { error: 'email not found' }, status: :unprocessable_entity
+      error = 'email not found'
+      responder('error', 422, error: error)
     end
   end
 end

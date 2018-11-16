@@ -2,7 +2,8 @@
 
 class NotificationsService
   NOTIFICATION_TYPES = {
-    invite_new_user: 'invite new user'
+    invite_new_user: 'invite new user',
+    send_password_reset_link: 'send password reset link'
   }.freeze
 
   def initialize(type, params: {})
@@ -20,13 +21,23 @@ class NotificationsService
 
   private
 
-  attr_reader :type
-  attr_reader :params
+  attr_reader :type,
+              :params
 
   def notify(type, params:)
-    case type
-    when NOTIFICATION_TYPES[:invite_new_user]
-      InviteJob.perform_later(email: params[:email], password: params[:password])
-    end
+    options = notification_options(type, params: params)
+    NotificationsJob.perform_later(options: options)
+  end
+
+  def notification_options(type, params:)
+    options = if type == NOTIFICATION_TYPES[:invite_new_user]
+                { action_name: 'invite_user',
+                  payload: params }
+              elsif type == NOTIFICATION_TYPES[:send_password_reset_link]
+                { action_name: 'send_password_reset_link',
+                  payload: params }
+              end
+    options[:mailer_name] = NotificationMailer.name
+    options
   end
 end

@@ -25,6 +25,14 @@ RSpec.describe 'NewPassword', type: :request do
         expect(json['message'])
           .to match(/Password reset instructions sent to your email/)
       end
+
+      it 'sends password reset instructions' do
+        perform_enqueued_jobs do
+          get new_password_path, params: { email: user.email }
+        end
+        expect(all_emails.size).to be(1)
+        expect(last_email.to).to match_array([user.email])
+      end
     end
 
     context 'when email address does not exist' do

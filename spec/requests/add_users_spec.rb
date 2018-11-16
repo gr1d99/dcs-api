@@ -17,6 +17,7 @@ RSpec.describe 'Admins', type: :request do
 
       it 'returns status code 201' do
         post add_user_path, params: { email: email }, headers: headers
+
         expect(response).to have_http_status(201)
       end
 
