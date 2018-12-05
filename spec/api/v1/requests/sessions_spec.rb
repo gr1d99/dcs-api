@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
 RSpec.describe 'Sessions', type: :request do
   let(:email) { Faker::Internet.email }
   let(:password) { 'test@123' }
@@ -10,7 +9,7 @@ RSpec.describe 'Sessions', type: :request do
 
   describe 'POST #create' do
     context 'when email and password are correct' do
-      before { post login_path, params: { email: email, password: password } }
+      before { post api_v1_login_path, params: { email: email, password: password } }
 
       it 'responds with status code 200' do
         expect(response).to have_http_status(200)
@@ -22,7 +21,7 @@ RSpec.describe 'Sessions', type: :request do
     end
 
     context 'when password is incorrect' do
-      before { post login_path, params: { email: email, password: '234' } }
+      before { post api_v1_login_path, params: { email: email, password: '234' } }
 
       it 'responds with 401' do
         expect(response).to have_http_status(401)
@@ -35,7 +34,7 @@ RSpec.describe 'Sessions', type: :request do
 
     context 'when email does not exist' do
       before do
-        post login_path, params: { email: 'invalid@example.com', password: password }
+        post api_v1_login_path, params: { email: 'invalid@example.com', password: password }
       end
 
       it 'responds with 401' do
@@ -54,21 +53,21 @@ RSpec.describe 'Sessions', type: :request do
     let(:headers) { { Authorization: "Bearer #{jwt_token}" } }
 
     context 'when jwt is valid' do
-      before { delete logout_path, headers: headers }
+      before { delete api_v1_logout_path, headers: headers }
 
       it { expect(response).to have_http_status(200) }
     end
 
     context 'when jti has been blacklisted' do
-      before { delete logout_path, headers: headers }
+      before { delete api_v1_logout_path, headers: headers }
 
       it 'revokes jwt token' do
-        delete logout_path, headers: headers
+        delete api_v1_logout_path, headers: headers
         expect(response).to have_http_status(401)
       end
 
       it 'returns revoked error message' do
-        delete logout_path, headers: headers
+        delete api_v1_logout_path, headers: headers
         expect(json['error']).to match('token has been revoked')
       end
     end

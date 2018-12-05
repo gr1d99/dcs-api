@@ -15,20 +15,20 @@ RSpec.describe 'NewPassword', type: :request do
       before { allow(User).to receive(:find_by_email).and_return(user) }
 
       it 'responds with status code 200' do
-        get new_password_path, params: { email: user.email }
+        get api_v1_new_password_path, params: { email: user.email }
         expect(response).to have_http_status(200)
 
       end
 
       it 'returns success message' do
-        get new_password_path, params: { email: user.email }
+        get api_v1_new_password_path, params: { email: user.email }
         expect(json['message'])
           .to match(/Password reset instructions sent to your email/)
       end
 
       it 'sends password reset instructions' do
         perform_enqueued_jobs do
-          get new_password_path, params: { email: user.email }
+          get api_v1_new_password_path, params: { email: user.email }
         end
         expect(all_emails.size).to be(1)
         expect(last_email.to).to match_array([user.email])
@@ -38,7 +38,7 @@ RSpec.describe 'NewPassword', type: :request do
     context 'when email address does not exist' do
       before do
         allow(User).to receive(:find_by_email).and_return(nil)
-        get new_password_path, params: { email: 'idontexist@test.com' }
+        get api_v1_new_password_path, params: { email: 'idontexist@test.com' }
       end
 
       it 'responds with status code 422' do
@@ -51,7 +51,7 @@ RSpec.describe 'NewPassword', type: :request do
     end
 
     context 'when email is nil or empty' do
-      before { get new_password_path, params: { email: '' } }
+      before { get api_v1_new_password_path, params: { email: '' } }
 
       it 'responds with 422' do
         expect(response).to have_http_status(422)

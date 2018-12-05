@@ -16,6 +16,7 @@ gem 'sidekiq', '~> 5.2.2'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'cucumber-rails', require: false
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec-rails'
@@ -29,6 +30,7 @@ group :development do
 end
 
 group :test do
+  gem 'database_cleaner'
   gem 'faker'
   gem 'guard-rspec', require: false
   gem 'shoulda-matchers'
