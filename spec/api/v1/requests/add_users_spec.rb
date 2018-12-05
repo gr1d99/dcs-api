@@ -16,14 +16,14 @@ RSpec.describe 'Admins', type: :request do
       let(:email) { Faker::Internet.email }
 
       it 'returns status code 201' do
-        post add_user_path, params: { email: email }, headers: headers
+        post api_v1_add_user_path, params: { email: email }, headers: headers
 
         expect(response).to have_http_status(201)
       end
 
       it 'changes users count by 1' do
         expect do
-          post add_user_path, params: { email: email }, headers: headers
+          post api_v1_add_user_path, params: { email: email }, headers: headers
         end.to change(User, :count)
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe 'Admins', type: :request do
 
       before do
         FactoryBot.create(:user, email: email)
-        post add_user_path, params: { email: email }, headers: headers
+        post api_v1_add_user_path, params: { email: email }, headers: headers
       end
 
       include_examples 'status code 422'
@@ -45,7 +45,7 @@ RSpec.describe 'Admins', type: :request do
 
     context 'when email is of incorrect format' do
       before do
-        post add_user_path, params: { email: 'email' }, headers: headers
+        post api_v1_add_user_path, params: { email: 'email' }, headers: headers
       end
 
       include_examples 'status code 422'
@@ -61,7 +61,7 @@ RSpec.describe 'Admins', type: :request do
     let(:headers) { { Authorization: "Bearer #{valid_jwt_token(non_admin)}" } }
 
     it 'returns status code 403' do
-      post add_user_path,
+      post api_v1_add_user_path,
            params: new_user_params,
            headers: headers
       expect(response).to have_http_status(403)

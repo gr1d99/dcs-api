@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   def build_password_reset_url
     host, port = User.fetch_host_and_port(Rails.env)
-    Rails.application.routes.url_helpers.verify_token_url(
+    Rails.application.routes.url_helpers.api_v1_verify_token_url(
       host: host,
       port: port,
       type: 'password_reset',

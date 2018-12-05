@@ -14,7 +14,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
     context 'when token, type, password and confirm params are valid' do
 
       before do
-        post passwords_path(type: type, token: token),
+        post api_v1_passwords_path(type: type, token: token),
              params: { password: password, confirm: confirm }
       end
 
@@ -31,7 +31,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       let(:token) { SecureRandom.urlsafe_base64(10, true ) }
 
       before do
-        post passwords_path(type: type, token: token),
+        post api_v1_passwords_path(type: type, token: token),
              params: { password: password, confirm: confirm }
       end
 
@@ -48,7 +48,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       let(:type) { 'password_reset_type' }
 
       before do
-        post passwords_path(type: type, token: token),
+        post api_v1_passwords_path(type: type, token: token),
              params: { password: password, confirm: confirm }
       end
 
@@ -65,7 +65,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       let(:confirm) { 'Not Entirely true' }
 
       before do
-        post passwords_path(type: type, token: token),
+        post api_v1_passwords_path(type: type, token: token),
              params: { password: password, confirm: confirm }
       end
 

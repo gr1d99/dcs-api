@@ -10,7 +10,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
     context 'when type and token are valid' do
       it 'responds with status code 200' do
         allow(User).to receive(:token_valid?).and_return(true)
-        get verify_token_path, params: { type: type, token: token }
+        get api_v1_verify_token_path, params: { type: type, token: token }
         expect(response).to have_http_status(200)
       end
     end
@@ -18,7 +18,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
     context 'when type is implemented but token is not valid' do
       before do
         allow(User).to receive(:token_valid?).and_return(false)
-        get verify_token_path, params: { type: type, token: token }
+        get api_v1_verify_token_path, params: { type: type, token: token }
       end
 
       it 'responds with 422' do
@@ -36,7 +36,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
 
     context 'when type is implemented and token is not provide' do
       before do
-        get verify_token_path, params: { type: type }
+        get api_v1_verify_token_path, params: { type: type }
       end
 
       it 'responds with 422' do
@@ -52,7 +52,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
 
     context 'when type is not implemented' do
       before do
-        get verify_token_path, params: { type: 'invalid', token: token }
+        get api_v1_verify_token_path, params: { type: 'invalid', token: token }
       end
 
       it 'responds with 422' do
