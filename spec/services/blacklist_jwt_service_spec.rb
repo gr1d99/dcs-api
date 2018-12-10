@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BlacklistJwtService do
+RSpec.describe Users::BlacklistJwtService do
   describe '#call' do
     let(:payload) { { email: build_stubbed(:user).email } }
     let(:jwt) { DcsJwt.encode(payload: payload) }

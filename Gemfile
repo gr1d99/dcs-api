@@ -19,6 +19,8 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'factory_bot_rails'
   gem 'pry-rails'
+  gem "reform", ">= 2.2.0"
+  gem "reform-rails"
   gem 'rspec-rails'
   gem 'rubocop', require: false
 end

@@ -29,7 +29,7 @@ module Api
           return
         end
         jwt = auth_token.split.last
-        BlacklistJwtService.call(jwt: jwt)
+        Users::BlacklistJwtService.call(jwt: jwt)
       end
 
       def login_params

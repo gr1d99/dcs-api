@@ -39,7 +39,7 @@ class ApplicationController < ActionController::API
       return
     end
     jwt_token_revoked if token_revoked?
-    user = AuthorizeUserService.call(auth_token: auth_token)
+    user = Users::AuthorizeUserService.call(auth_token: auth_token)
     instance_variable_set(:@current_user, user)
   end
 
