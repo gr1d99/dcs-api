@@ -16,7 +16,7 @@ RSpec.describe 'Sessions', type: :request do
       end
 
       it 'returns jwt_token' do
-        expect(json['jwt_token']).not_to be_nil
+        expect(json[:'jwt_token']).not_to be_nil
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe 'Sessions', type: :request do
       end
 
       it 'returns failure error message' do
-        expect(json['error']).to match(/Incorrect email or password/)
+        expect(json[:'error']).to match(/Incorrect email or password/)
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe 'Sessions', type: :request do
       end
 
       it 'returns failure error message' do
-        expect(json['error']).to match(/Incorrect email or password/)
+        expect(json[:'error']).to match(/Incorrect email or password/)
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe 'Sessions', type: :request do
 
       it 'returns revoked error message' do
         delete api_v1_logout_path, headers: headers
-        expect(json['error']).to match('token has been revoked')
+        expect(json[:'error']).to match('token has been revoked')
       end
     end
   end

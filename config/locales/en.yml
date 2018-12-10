@@ -30,7 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  user:
-    created: 'User created successfully'
+  admins:
+    user_created: 'User created successfully'
   jwt:
     invalid: 'Invalid jwt token'
+  mailers:
+    types:
+      invite_user: 'invite new user'

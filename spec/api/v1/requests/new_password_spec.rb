@@ -22,7 +22,7 @@ RSpec.describe 'NewPassword', type: :request do
 
       it 'returns success message' do
         get api_v1_new_password_path, params: { email: user.email }
-        expect(json['message'])
+        expect(json[:'message'])
           .to match(/Password reset instructions sent to your email/)
       end
 
@@ -46,7 +46,7 @@ RSpec.describe 'NewPassword', type: :request do
       end
 
       it 'returns error message' do
-        expect(json['error']).to match(/email not found/)
+        expect(json[:'error']).to match(/email not found/)
       end
     end
 
@@ -58,7 +58,7 @@ RSpec.describe 'NewPassword', type: :request do
       end
 
       it 'returns error message' do
-        expect(json['error']).to match(/email address required/)
+        expect(json[:'error']).to match(/email address required/)
       end
     end
   end

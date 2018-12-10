@@ -6,11 +6,12 @@ module Api
       before_action :authenticate_user!, :admin_only!
 
       def add_user
-        user_password = SecureRandom.urlsafe_base64(10)
-        User.create!(user_params.merge(password: user_password))
-        notify('invite new user',
-               params: { email: params[:email], password: user_password })
-        render json: { message: 'User created successfully' }, status: :created
+        result = Admins::CreateUserService.call(user_params)
+        if result.success?
+          render json: result.model, status: :created
+        else
+          render json: result.model.errors, status: :unprocessable_entity
+        end
       end
 
       private

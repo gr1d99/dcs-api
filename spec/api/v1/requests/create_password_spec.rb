@@ -23,7 +23,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       end
 
       it 'returns success message' do
-        expect(json['message']).to match(/Password successfully created/)
+        expect(json[:message]).to match(/Password successfully created/)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       end
 
       it 'returns error message' do
-        expect(json['error']).to match(/Page not found/)
+        expect(json[:error]).to match(/Page not found/)
       end
     end
 
@@ -57,7 +57,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       end
 
       it 'returns error message' do
-        expect(json['error']).to match(/Page not found/)
+        expect(json[:'error']).to match(/Page not found/)
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe 'CreateNewPassword', type: :request do
       end
 
       it 'returns error message' do
-        expect(json['error']).to match(/Passwords do not match/)
+        expect(json[:'error']).to match(/Passwords do not match/)
       end
     end
   end

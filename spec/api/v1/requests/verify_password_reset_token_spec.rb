@@ -29,7 +29,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
         error_message =
           'please ensure you have the correct url or request a new url'
         expect(
-          json['error'])
+          json[:'error'])
           .to match(/#{error_message}/)
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
       it 'responds with error message' do
         error_message =
           'please ensure you have the correct url or request a new url'
-        expect(json['error']).to match(/#{error_message}/)
+        expect(json[:'error']).to match(/#{error_message}/)
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe 'VerifyPasswordResetToken', type: :request do
       end
 
       it 'responds with error message' do
-        expect(json['error']).to match(/not yet implemented!!/)
+        expect(json[:'error']).to match(/not yet implemented!!/)
       end
     end
   end

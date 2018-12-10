@@ -38,8 +38,7 @@ RSpec.describe 'Admins', type: :request do
 
       include_examples 'status code 422'
       it 'returns error message' do
-        expect(json['error'])
-          .to match(/Validation failed: Email has already been taken/)
+        expect(json[:email][0]).to match(/has already been taken/)
       end
     end
 
@@ -50,7 +49,7 @@ RSpec.describe 'Admins', type: :request do
 
       include_examples 'status code 422'
       it 'returns error message' do
-        expect(json['error']).to match(/Validation failed: Email is invalid/)
+        expect(json[:email][0]).to match(/is invalid/)
       end
     end
   end
