@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
   end
 
   def invalid_jwt(*)
-    render json: { error: 'invalid jwt token' }, status: :unauthorized
+    render json: { error: I18n.t('jwt.invalid') }, status: :unauthorized
   end
 
   def jwt_token_revoked
