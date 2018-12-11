@@ -12,8 +12,8 @@ module Admins
       create_user(generate_password)
     end
 
-    def self.call(email)
-      new(email).call
+    def self.call(args)
+      new(args).call
     end
 
     private
