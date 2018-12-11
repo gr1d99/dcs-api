@@ -13,8 +13,8 @@ gem 'jwt', '~> 2.1.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
-gem 'reform'
-gem 'reform-rails'
+gem "reform", ">= 2.2.0"
+gem "reform-rails"
 gem 'rails', '~> 5.2.1'
 gem 'sidekiq', '~> 5.2.2'
 
@@ -23,8 +23,6 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'factory_bot_rails'
   gem 'pry-rails'
-  gem "reform", ">= 2.2.0"
-  gem "reform-rails"
   gem 'rspec-rails'
   gem 'rubocop', require: false
 end
