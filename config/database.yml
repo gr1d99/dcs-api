@@ -80,9 +80,7 @@ test: &test
 #
 production:
   <<: *default
-  database: dcs-api_production
-  username: dcs-api
-  password: <%= ENV['DCS-API_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
 
 cucumber:
   <<: *test
