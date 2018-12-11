@@ -8,10 +8,13 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'figaro', '~> 1.1.1'
+gem 'foreman'
 gem 'jwt', '~> 2.1.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
+gem 'reform'
+gem 'reform-rails'
 gem 'rails', '~> 5.2.1'
 gem 'sidekiq', '~> 5.2.2'
 
