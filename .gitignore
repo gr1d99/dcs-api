@@ -26,6 +26,7 @@
 /config/application.yml
 
 /config/secrets.yml
+/config/master.key
 
 .idea/
 coverage/

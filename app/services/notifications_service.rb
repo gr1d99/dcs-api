@@ -25,6 +25,7 @@ class NotificationsService
               :params
 
   def notify(type, params:)
+    p type, params
     options = notification_options(type, params: params)
     NotificationsJob.perform_later(options: options)
   end
