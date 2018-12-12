@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def build_password_reset_url
-    host, port = User.fetch_host_and_port(Rails.env)
+    host, port = User.fetch_host_and_port
     Rails.application.routes.url_helpers.api_v1_verify_token_url(
       host: host,
       port: port,
@@ -24,12 +24,9 @@ class User < ApplicationRecord
     )
   end
 
-  def self.fetch_host_and_port(env)
-    if env == 'production'
-      [ENV['PROD_HOST'], ENV['PROD_PORT']]
-    elsif env == 'development'
-      [ENV['DEV_HOST'], ENV['DEV_PORT']]
-    end
+  def self.fetch_host_and_port
+    [Rails.application.credentials.public_send(Rails.env)[:HOST],
+     Rails.application.credentials.public_send(Rails.env)[:PORT]]
   end
 
   def self.token_valid?(type, token)

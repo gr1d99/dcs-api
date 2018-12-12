@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module DcsJwtDefaults
-  HMAC_SECRET = ENV['SECRET_KEY_BASE']
-  ALGORITHM = ENV['JWT_ALGORITHM'] || 'HS512'
+  HMAC_SECRET = Rails.application.credentials.SECRET_KEY_BASE
+  ALGORITHM = Rails.application.credentials.public_send(Rails.env)[:JWT_ALGORITHM] || 'HS512'
   CUSTOM_OPTIONS = {
     algorithm: ALGORITHM
   }.freeze
@@ -29,7 +29,7 @@ class DcsJwt
   def self.configure_payload(payload:)
     payload[:iat] = Time.now.to_i
     payload[:nbf] = Time.now.to_i
-    payload[:exp] = (Time.now + ENV['JWT_EXPIRATION'].to_i).to_i
+    payload[:exp] = (Time.now + Rails.application.credentials.public_send(Rails.env)[:JWT_EXPIRATION].to_i).to_i
     payload[:jti] = jti
     payload
   end

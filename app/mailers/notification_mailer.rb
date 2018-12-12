@@ -1,5 +1,5 @@
 class NotificationMailer < ApplicationMailer
-  default from: ENV['ADMINS_DEFAULT_FROM_EMAIL']
+  default from: Rails.application.credentials.public_send(Rails.env)[:ADMINS_DEFAULT_FROM_EMAIL]
 
   def invite_user
     @subject = 'Welcome to DCS'
